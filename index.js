@@ -1,8 +1,11 @@
 const puppeteer = require("puppeteer");
 
-const delayBeforeStart = 15 * 60 * 1000 + 0.1 * 60 * 1000; // 15 minutes
+const delayBeforeStart = 15 * 60 * 1000 + 0.1 * 60 * 1000; // 15 minutes + 6 seconds
 
 async function runScript() {
+  const runTime = new Date().toLocaleString();
+  console.log(`\n[${runTime}] Starting script...`);
+
   const browser = await puppeteer.launch({
     executablePath: "/usr/bin/google-chrome", // Or adjust path if needed
     headless: false,
@@ -24,8 +27,9 @@ async function runScript() {
     await page.click("#connectToInternet");
 
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log(`[${runTime}] Successfully completed.`);
   } catch (err) {
-    console.error("Something went wrong:", err.message);
+    console.error(`[${runTime}] Something went wrong:`, err.message);
   } finally {
     await browser.close();
   }
